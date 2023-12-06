@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #1a1a1a;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #913737;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .admin-form {
+      width: 70%;
+      background-color: #3d3d3d;
+      border: 1px solid #444;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-label {
+      color: #fff;
+      display: block;
+      margin-top: 15px;
+    }
+
+    .form-input {
+      width: calc(100% - 30px);
+      padding: 15px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      font-size: 14px; 
+    }
+
+    .form-button {
+      cursor: pointer;
+      font-size: 16px; 
+      border: none;
+      border-radius: 5px;
+      background-color: #3498db;
+      color: #fff;
+    }
+
+    .form-button:hover {
+      background-color: #2980b9;
+    }
+
+    .admin-post {
+      width: 70%; 
+      background-color: #333;
+      border: 1px solid #444;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      margin: 10px 0;
+      text-align: left;
+    }
+
+    .admin-post img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .admin-form,
+      .admin-post {
+        width: 100%;
+      }
+    }
+  </style>
+  <title>Admin Page</title>
+</head>
+<body>
+
+  <form class="admin-form" action="/add-post" method="post" enctype="multipart/form-data">
+    <label class="form-label" for="title">Title:</label>
+    <input class="form-input" type="text" name="title" required><br>
+    <label class="form-label" for="content">Content:</label>
+    <textarea class="form-input" name="content" required></textarea><br>
+    <label class="form-label" for="image">Image:</label>
+    <input class="form-input" type="file" name="image" accept="image/*" required><br>
+    <button class="form-button" type="submit">Add Post</button>
+  </form>
+
+  <% posts.forEach((post, index) => { %>
+    <div class="admin-post">
+      <h2><%= post.title %></h2>
+      <p><%= post.content %></p>
+      <img src="<%= post.image %>" alt="Post Image">
+      <form class="admin-form" action="/update-post/<%= index %>" method="post" enctype="multipart/form-data">
+        <label class="form-label" for="title">Title:</label>
+        <input class="form-input" type="text" name="title" value="<%= post.title %>" required><br>
+        <label class="form-label" for="content">Content:</label>
+        <textarea class="form-input" name="content" required><%= post.content %></textarea><br>
+        <label class="form-label" for="image">Image:</label>
+        <input class="form-input" type="file" name="image" accept="image/*"><br>
+        <button class="form-button" type="submit">Update</button>
+      </form>
+      <form class="admin-form" action="/delete-post/<%= index %>" method="get">
+        <button class="form-button" type="submit">Delete</button>
+      </form>
+    </div>
+  <% }); %>
+
+</body>
+</html>
